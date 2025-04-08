@@ -1,4 +1,4 @@
-use std::io::{BufRead, Cursor, Read, Seek};
+use std::io::{BufRead, Cursor, Seek};
 
 /// For the 64 Bit the datatypes of the ELF specifications
 /// are kind of different, they can be found here https://docs.oracle.com/cd/E23824_01/html/819-0690/chapter7-6.html
@@ -16,7 +16,6 @@ impl Elf64 {
     /// e_phoff: u64 - byte 0x28 to 0x30
     /// e_shentsize: u16 - byte 0x3a to 0x3c
     pub fn extract_section_header_meta(buffer: &[u8]) -> Option<Elf64SHeaderMeta> {
-        println!(" {:?}", &buffer[0..52]);
         let (e_phoff, e_phentsize, e_phnum) = (
             u64::from_le_bytes(buffer[0x20..0x28].try_into().unwrap()),
             u16::from_le_bytes(buffer[0x36..0x38].try_into().unwrap()),
